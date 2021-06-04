@@ -3,7 +3,7 @@
 from PIL import Image, ImageFont, ImageDraw
 import textwrap
 
-def makememe (image, text: str, xy: tuple, width: int, fontsize=60, font="/usr/share/fonts/DejaVuSans.ttf"):
+def makememe (image, text, xy, width, fontsize=60, font="/usr/share/fonts/DejaVuSans.ttf", line_width_multiplier=2):
     if type(image) is str: 
         img = Image.open(image) # if we pass a path, open it
     else:
@@ -12,7 +12,8 @@ def makememe (image, text: str, xy: tuple, width: int, fontsize=60, font="/usr/s
     img_editable = ImageDraw.Draw(img)
     font_draw = ImageFont.truetype(font, fontsize)
 
-    line_width = 1/fontsize * width
+    line_width = line_width_multiplier * width/fontsize
+
     text_lines = textwrap.fill(text, line_width)
 
     img_editable.text(xy, text_lines, (0,0,0), font=font_draw)
@@ -20,12 +21,21 @@ def makememe (image, text: str, xy: tuple, width: int, fontsize=60, font="/usr/s
     return img
 
 def angrysoyjack (text):
-    makememe("img/angrysoyjack.jpg", text, (680,70), 960).save("finishedmeme.jpg")
+    img = makememe("img/angrysoyjack.jpg", text, (680,70), 960)
+    return img
 
-def chadyes (text, text2="Yes"):
-    img = makememe("img/chadyes.jpg", text, (0,0), 0, 0)
-    makememe(img, text2, (0,0), 0, 0)
+def chadyes (text, text2="Yes."):
+    img = makememe("img/chadyes.jpg", text, (60,760), 550, 40, "/usr/share/fonts/Impact.TTF", 2.5)
+    if len(text2) < 6:
+        fontsize = 100
+        x = 1100
+    else:
+        fontsize = 60
+        x = 950
+    img = makememe(img, text2, (x,740), 400, fontsize, "/usr/share/fonts/Impact.TTF")
+    return img
 
-def chadno(text, text2="No"):
-    chadyes(text, text2)
+def chadno(text, text2="No."):
+    img = chadyes(text, text2)
+    return img
 

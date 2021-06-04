@@ -1,3 +1,6 @@
 #!/bin/python3
+
 from meme import *
-angrysoyjack("bruh")
+import sys 
+
+eval(sys.argv[1]+"("+'"'+sys.argv[2]+'"'+")")

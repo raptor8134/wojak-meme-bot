@@ -1,5 +1,6 @@
 #!/bin/python3
 from sys import argv
+from os import system, path
 
 from meme import *
 from reddit import *
@@ -18,6 +19,8 @@ opts = {
     "--reddit":     redditbot,
     "--discord":    discordbot,
 }
+
+#system(". " + path.realpath("./login.sh"))
 
 for opt in opts:
     if opt in argv[1]:

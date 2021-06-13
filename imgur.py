@@ -1,13 +1,18 @@
 from imgur_python import Imgur
-from os import system, getenv, path
-
-system(". ./imgurlogin.sh")
+from os import system, environ, path
+import PIL
 
 def postimg(image, title, description):
     client = Imgur({
-        "client_id":        getenv("I_CLIENT_ID"), 
-        "client_secret":    getenv("I_CLIENT_SECRET")
+        "client_id":        environ.get("I_CLIENT_ID"), 
+        "client_secret":    environ.get("I_CLIENT_SECRET")
     }) 
-    image = imgur_client.image_upload(path.realpath(image), title, description)
-    url = image["response"]["data"]["id"]
+
+    if type(image) is PIL.JpegImagePlugin.JpegImageFile:
+        image.save("/tmp/wojakimg.jpg")
+        image = "/tmp/wojakimg.jpg"
+
+    image = client.image_upload(path.realpath(image), title, description)
+    url = "https://i.imgur.com/" + image["response"]["data"]["id"] + ".jpg"
+    print(url)
     return url

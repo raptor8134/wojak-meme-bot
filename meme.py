@@ -13,8 +13,8 @@ def makememe (image, text, xy, width, fontsize=60, font="/usr/share/fonts/DejaVu
     img_editable.text(xy, text_lines, (0,0,0), font=font_draw)
     return img
 
-def angrysoyjack (text):
-    img = makememe("img/angrysoyjack.jpg", text, (680,70), 960, 50)
+def angrysoyjack (text, image="img/angrysoyjack.jpg"):
+    img = makememe(image, text, (680,70), 960, 50)
     return img
 
 def chadyes (text, text2="Yes.", image="img/chadyes.jpg"):

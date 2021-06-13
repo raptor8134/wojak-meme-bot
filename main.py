@@ -1,19 +1,28 @@
 #!/bin/python3
-
-from meme import *
-from imgur import *
-from reddit import *
 from sys import argv
 
+from meme import *
+from reddit import *
+from discord import *
+
 # Hacky and temporary, TODO add option parser
-eval(argv[1] + "(" + "\"" + argv[2]+ "\"" +").save(\"finishedmeme.jpg\")")
+#eval(argv[1] + "(" + "\"" + argv[2]+ "\"" +").save(\"finishedmeme.jpg\")")
 
- """
- # use thist later
+memes = {
+    "chadyes":      chadyes,
+    "chadno":       chadno,
+    "angrysoyjack": angrysoyjack,
+}
 
- while True:
-    comments = getcommments()
-    for comment in comments: 
-        # do stuff
-        postimg(image)
- """
+opts = {
+    "--reddit":     redditbot,
+    "--discord":    discordbot,
+}
+
+for opt in opts:
+    if opt in argv[1]:
+        opts[opt](memes)
+    else:
+        for meme in memes:
+            if meme in argv[1]:
+                memes[meme](" ".join(argv[2::]))

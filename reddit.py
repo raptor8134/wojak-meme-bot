@@ -1,6 +1,7 @@
 from praw import Reddit
 from praw.models import Submission, Subreddit, Comment
-from os.environ import get
+from os import getenv
+import re
 
 from imgur import *
 from meme import *
@@ -10,23 +11,26 @@ def __bot__(memes, subreddit):
     botmsg = "\n\n ^([Github](https://github.com/raptor8134/wojak-meme-bot) | [subreddit](https://reddit.com/r/r/wojakmemebot))"
 
     reddit = Reddit(  
-        user_agent      = get("R_USER_AGENT"),
-        client_id       = get("R_CLIENT_ID"),
-        client_secret   = get("R_CLIENT_SECRET"),
-        username        = get("R_USERNAME"),
-        password        = get("R_PASSWORD")
+        user_agent      = getenv("R_USER_AGENT"),
+        client_id       = getenv("R_CLIENT_ID"),
+        client_secret   = getenv("R_CLIENT_SECRET"),
+        username        = getenv("R_USERNAME"),
+        password        = getenv("R_PASSWORD")
     )
     
     sub = reddit.subreddit(subreddit)
     for comment in sub.stream.comments():
         if comment.body == "!soyjack":
+            should_reply = True
+            comment.refresh()
             for reply in comment.replies:
-                if reply.author == "wojak-meme-bot":
+                if reply.author.name == "wojak-meme-bot":
                     should_reply = False 
-                else:
-                    should_reply = True
+                    break
             if should_reply:
-                text = re.sub("<[^<]+?>", text = comment.parent().body_html)
+                try: html = comment.parent().body_html
+                except: html = "bruh" # do the post title if its a top level comment
+                text = re.sub("<[^<]+?>", "", comment.parent().body_html)
             #### IMPORTANT: THIS WILL FAIL IF YOU DO NOT PATCH TEXTWRAP
             #### In textwrap.py (in /usr/lib/python3.x/ if you installed it as root),
             #### go to line 213 and put a `round()` function around `width - cur_len`. 

@@ -1,7 +1,7 @@
 from PIL import Image, ImageFont, ImageDraw
 import textwrap
 
-def makememe (image, text, xy, width, fontsize=60, font="/usr/share/fonts/DejaVuSans.ttf", line_width_multiplier=1):
+def makememe (image, text, xy, width, fontsize=60, font="/usr/share/fonts/TTF/DejaVuSans.ttf", line_width_multiplier=1):
     if type(image) is str: 
         img = Image.open(image) # if we pass a path, open it
     else:
@@ -18,14 +18,14 @@ def angrysoyjack (text, image="img/angrysoyjack.jpg"):
     return img
 
 def chadyes (text, text2="Yes.", image="img/chadyes.jpg"):
-    img = makememe(image, text, (60,760), 550, 40, "/usr/share/fonts/Impact.TTF", 2.5)
+    img = makememe(image, text, (60,760), 550, 40, "/usr/share/fonts/TTF/Impact.TTF", 2.5)
     if len(text2) < 6:
         fontsize = 100
         x = 1100
     else:
         fontsize = 60
         x = 950
-    img = makememe(img, text2, (x,740), 400, fontsize, "/usr/share/fonts/Impact.TTF")
+    img = makememe(img, text2, (x,740), 400, fontsize, "/usr/share/fonts/TTF/Impact.TTF")
     return img
 
 def chadno(text, text2="No."):

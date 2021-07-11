@@ -1,16 +1,19 @@
 from praw import Reddit
 from praw.models import Submission, Subreddit, Comment
-import threading
 from time  import sleep
 from os import getenv
+import threading
 import re
 
 from imgur import *
 from meme import *
 
+def printf(*args): # Can't remember `end=""`, so I use this
+    print(*args, end="")
+
 def redditbot(memes, sub):
 
-    botmsg = "\n\n ^([Github](https://github.com/raptor8134/wojak-meme-bot) | [subreddit](https://reddit.com/r/wojakmemebot))"
+    botmsg = "\n\n ^([Github](https://github.com/raptor8134/wojak-meme-bot))"
 
     reddit = Reddit(
         user_agent      = getenv("R_USER_AGENT"),
@@ -31,15 +34,18 @@ def redditbot(memes, sub):
                         should_reply = False 
                         break
                 if should_reply:
-                    print("Found a comment!:", comment.body)
-                    try: html = comment.parent().body_html
-                    except: html = "bruh" # do the post title if its a top level comment
+                    printf("\033[1mFound a comment:\033[0m " + comment.permalink + " ")
+                    try:
+                        html = comment.parent().body_html
+                    except:
+                        html = "bruh" # do the post title if its a top level comment
                     text = re.sub("<[^<]+?>", "", html)
                 #### IMPORTANT: THIS WILL FAIL IF YOU DO NOT PATCH TEXTWRAP
                 #### In textwrap.py (in /usr/lib/python3.x/ if you installed it as root),
                 #### change line 213 to `space_left = round(width - cur_len)`. 
                 #### This prevents the typeError from happening because it will be an int
                 #### I will submit a bug report later but this should work for now
-                    meme = angrysoyjack(text)
+                    meme = memes[comment.body](text)
                     link = postimg(meme, "r/" + sub + " wojak meme", "")
                     reply = comment.reply("[Here's your meme!](" + link + ")" + botmsg)
+                    printf("\033[1;32m✓\033[0m")

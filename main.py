@@ -23,7 +23,7 @@ subreddits = [
     "u_raptor8134"
 ]
 
-print("Run at", time())
+print("Run on", time())
 
 if argv[1] == "--reddit":
     for sub in subreddits:

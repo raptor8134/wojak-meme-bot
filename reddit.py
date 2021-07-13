@@ -8,9 +8,6 @@ import re
 from imgur import *
 from meme import *
 
-def printf(*args): # Can't remember `end=""`, so I use this
-    print(*args, end="")
-
 def redditbot(memes, sub):
 
     botmsg = "\n\n ^([Github](https://github.com/raptor8134/wojak-meme-bot))"
@@ -34,7 +31,8 @@ def redditbot(memes, sub):
                         should_reply = False 
                         break
                 if should_reply:
-                    printf("\033[1mFound a comment:\033[0m " + comment.permalink + " ")
+                    print("\033[1mFound a comment:\033[0m")
+                    print("\thttps://reddit.com/" + comment.permalink)
                     try:
                         html = comment.parent().body_html
                     except:
@@ -48,4 +46,4 @@ def redditbot(memes, sub):
                     meme = memes[comment.body](text)
                     link = postimg(meme, "r/" + sub + " wojak meme", "")
                     reply = comment.reply("[Here's your meme!](" + link + ")" + botmsg)
-                    printf("\033[1;32m✓\033[0m")
+                    print("\t\033[1;32m✓ Reply posted\033[0m")

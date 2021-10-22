@@ -6,7 +6,7 @@ from time import ctime as time
 
 from meme import *
 from reddit import *
-#from discord import *
+from discord_bot import *
 
 memes = {
     "chadyes":     chadyes,
@@ -31,6 +31,8 @@ if argv[1] == "--reddit":
         print("Started bot on r/" + sub)
 elif argv[1] == "--discord":
     discordbot(memes)
+elif argv[1] == "--discord-url":
+    bot_url()
 else:
     try:
         memes[argv[1]](" ".join(argv[2::])).save("finishedmeme.jpg")

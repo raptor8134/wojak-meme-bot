@@ -6,13 +6,13 @@ from time import ctime as time
 
 from meme import *
 from reddit import *
-from discord import *
+#from discord import *
 
 memes = {
-    "!chadyes":     chadyes,
-    "!chadno":      chadno,
-    "!soyjack":     angrysoyjack,
-    "!gigachad":    gigachad,
+    "chadyes":     chadyes,
+    "chadno":      chadno,
+    "soyjack":     angrysoyjack,
+    "gigachad":    gigachad,
 }
 
 subreddits = [
@@ -23,9 +23,9 @@ subreddits = [
     "u_raptor8134"
 ]
 
-print("Run on", time())
 
 if argv[1] == "--reddit":
+    print("Run on", time())
     for sub in subreddits:
         Process(target=redditbot, args=(memes, sub)).start()
         print("Started bot on r/" + sub)
@@ -33,6 +33,6 @@ elif argv[1] == "--discord":
     discordbot(memes)
 else:
     try:
-        memes["!"+argv[1]](" ".join(argv[2::])).save("finishedmeme.jpg")
+        memes[argv[1]](" ".join(argv[2::])).save("finishedmeme.jpg")
     except:
         stderr.write("Error: unknown option\n")

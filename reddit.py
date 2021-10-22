@@ -23,7 +23,8 @@ def redditbot(memes, sub):
     while True:
         comments = reddit.subreddit(sub).stream.comments()
         for comment in comments:
-            if comment.body in memes:
+            c = comment.body
+            if c.startswith("!") and c[1::] in memes:
                 should_reply = True
                 comment.refresh()
                 for reply in comment.replies:
@@ -43,7 +44,7 @@ def redditbot(memes, sub):
                 #### change line 213 to `space_left = round(width - cur_len)`. 
                 #### This prevents the typeError from happening because it will be an int
                 #### I will submit a bug report later but this should work for now
-                    meme = memes[comment.body](text)
+                    meme = memes[c[1::]](text)
                     link = postimg(meme, "r/" + sub + " wojak meme", "")
                     reply = comment.reply("[Here's your meme!](" + link + ")" + botmsg)
                     print("\t\033[1;32m✓ Reply posted\033[0m")

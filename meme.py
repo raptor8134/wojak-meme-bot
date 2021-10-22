@@ -3,7 +3,7 @@ from PIL import Image, ImageFont, ImageDraw
 import textwrap
 
 def makememe(image, text, xy, width, fontsize=60,
-             font="/usr/share/fonts/TTF/DejaVuSans.ttf", lw_multiplier=1):
+             font="fonts/DejaVuSans.ttf", lw_multiplier=1):
     if type(image) is str: 
         img = Image.open(image) # if we pass a path, open it
     else:
@@ -20,7 +20,7 @@ def angrysoyjack(text, image="img/angrysoyjack.jpg"):
 
 def chadyes(text, text2="Yes.", image="img/chadyes.jpg"):
     img = makememe( image, text, (60,760), 550, 40,
-                    font="/usr/share/fonts/TTF/Impact.TTF", lw_multiplier=2.5)
+                    font="fonts/Impact.ttf", lw_multiplier=2.5)
     if len(text2) < 6:
         fontsize = 100
         x = 1100
@@ -28,7 +28,7 @@ def chadyes(text, text2="Yes.", image="img/chadyes.jpg"):
         fontsize = 60
         x = 950
     img = makememe( img, text2, (x,740), 400, fontsize, 
-                    font="/usr/share/fonts/TTF/Impact.TTF")
+                    font="fonts/Impact.ttf")
     return img
 
 def chadno(text, text2="No."):
@@ -36,4 +36,4 @@ def chadno(text, text2="No."):
 
 def gigachad(text):
     return makememe("img/gigachad.jpg", text, (20,780), 620, lw_multiplier=2.5,
-                    font="/usr/share/fonts/TTF/Impact.TTF", fontsize=40)
+                    font="fonts/Impact.ttf", fontsize=40)

@@ -30,7 +30,7 @@ def discordbot(memes):
 
     @bot.command()
     async def soyjack(ctx, *args):
-        image = discord_meme(memes, 'angrysoyjack', args)
+        image = discord_meme(memes, 'soyjack', args)
         await ctx.send(file=image)
 
     @bot.command()

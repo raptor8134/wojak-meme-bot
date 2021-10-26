@@ -23,6 +23,7 @@ subreddits = [
     "u_raptor8134"
 ]
 
+system(". ./login.sh")
 
 if argv[1] == "--reddit":
     print("Run on", time())

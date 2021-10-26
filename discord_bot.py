@@ -17,6 +17,7 @@ def discord_meme(memes, meme, arguments):
     #image = discord.File(file)
     memes[meme](text).save("tmp.jpg")
     image = discord.File("tmp.jpg")
+    print("made a '" + meme + "' meme")
     return image
 
 
@@ -26,7 +27,8 @@ def discordbot(memes):
 
     @bot.event
     async def on_ready():
-        print("Spinning up ...")
+        await bot.change_presence(activity=discord.Game(name="with your balls"))
+        print("Ready!")
 
     @bot.command()
     async def soyjack(ctx, *args):

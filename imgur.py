@@ -6,6 +6,7 @@ import PIL
 def postimg(image, title, description):
     client = Imgur({
         "client_id":        getenv("I_CLIENT_ID"), 
+        "access_token":        getenv("I_CLIENT_ID"), 
         "client_secret":    getenv("I_CLIENT_SECRET")
     }) 
 

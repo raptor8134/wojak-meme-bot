@@ -46,5 +46,10 @@ def redditbot(memes, sub):
                 #### I will submit a bug report later but this should work for now
                     meme = memes[c[1::]](text)
                     link = postimg(meme, "r/" + sub + " wojak meme", "")
-                    reply = comment.reply("[Here's your meme!](" + link + ")" + botmsg)
-                    print("\t\033[1;32m✓ Reply posted\033[0m")
+                    try:
+                        reply = comment.reply(\
+                                "[Here's your meme!](" + link + ")" + botmsg)
+                    except praw.exceptions.RedditAPIException:
+                        print("Comment deleted!")
+                    else:
+                        print("\t\033[1;32m✓ Reply posted\033[0m")

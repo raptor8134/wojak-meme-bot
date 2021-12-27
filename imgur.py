@@ -1,6 +1,5 @@
 from imgur_python import Imgur
-from os import path
-from os import getenv
+from os import getenv, remove
 import PIL
 
 def postimg(image, title, description):
@@ -11,10 +10,11 @@ def postimg(image, title, description):
     }) 
 
     if type(image) is PIL.JpegImagePlugin.JpegImageFile:
-        title = description.replace(' ', '')
-        image.save(f"/tmp/my_imgur_python/{title}.jpg")
-        image = f"/tmp/my_imgur_python/{title}.jpg"
+        path = "/tmp/my_imgur_python/"+title.replace(' ', '').replace('/','')+".jpg"
+        image.save(path)
+        image = path
 
-    image = client.image_upload(path.realpath(image), title, description)
+    image = client.image_upload(image, title, description)
     url = "https://i.imgur.com/" + image["response"]["data"]["id"] + ".jpg"
+    #remove(path)
     return url

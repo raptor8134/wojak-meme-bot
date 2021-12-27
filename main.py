@@ -16,11 +16,7 @@ memes = {
 }
 
 subreddits = [
-    "wojakmemebot",
     "politicalcompassmemes",
-    "196",
-    "shitposting",
-    "u_raptor8134"
 ]
 
 system(". ./login.sh")

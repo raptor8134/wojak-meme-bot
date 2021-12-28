@@ -1,3 +1,0 @@
-Include patched version of textwrap in this code
-Add proper logging
-Clean up code in general

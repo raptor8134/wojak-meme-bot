@@ -1,0 +1,15 @@
+{
+  "texts": [
+    {
+      "font": "Impact",
+      "pos": [32, 742],
+      "size": [566, 227]
+    },
+    {
+      "font": "Impact",
+      "default": "No.",
+      "pos": [896, 742],
+      "size": [514, 201]
+    }
+  ]
+}

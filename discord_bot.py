@@ -1,9 +1,11 @@
+# TODO, REMAKE DISCORD BOT
+
 import discord
 from discord.ext import commands
 from os import getenv
 import io
 
-from meme import * 
+from meme import *
 
 def bot_url():
     client_id = getenv("D_CLIENT_ID")

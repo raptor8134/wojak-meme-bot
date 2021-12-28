@@ -4,8 +4,7 @@ Reddit bot that makes wojak memes from text so r/politicalcompassmemes users can
 The preliminary version is currently testing on r/wojakmemebot
 
 ## TODO
-* Rebuild Discord bot
 * Add proper logging
-* Async
-* Improve implementation of chadyes and chadno
+* Async reddit
+* Improve implementation of chadyes and chadno (right now it's just copy-pasted)
 * Clean up code in general

@@ -1,5 +1,4 @@
 from praw import Reddit
-from praw.models import Submission, Subreddit, Comment
 from os import getenv
 from wojak_generator.templates import Templates
 from wojak_generator.render import PhotoRender
@@ -31,11 +30,8 @@ class RedditBot():
                 if c.startswith("!") and c[1::] in memes:
                     should_reply = True
                     comment.refresh()
-                    for reply in comment.replies:
-                        if reply.author.name == "wojak-meme-bot":
-                            should_reply = False
-                            break
-                    if should_reply:
+                    filtered_replies = list(filter(lambda reply: reply.author.name != 'wojak-meme-bot', comment.replies))
+                    for reply in filtered_replies:
                         print("\033[1mFound a comment:\033[0m")
                         print("\thttps://reddit.com/" + comment.permalink)
                         # This is the comment that wants to be added to the image

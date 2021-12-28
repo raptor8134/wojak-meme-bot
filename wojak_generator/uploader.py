@@ -1,7 +1,6 @@
 import requests
 from os import getenv
-from io import BytesIO
-from PIL import Image
+from wojak_generator.helpers import PILToBytes
 
 class Uploader:
     BASE_URL = 'https://api.imgur.com/3/upload'
@@ -12,10 +11,7 @@ class Uploader:
 
     def send(self, img: Image.Image, title: str, description: str)-> str:
         # Get image bytes first
-        buf = BytesIO()
-        img.save(buf, format='JPEG')
-        byte_im = buf.getvalue()
-        buf.close()
+        byte_im = PILToBytes(img)
         files = {
             'image': byte_im
         }

@@ -1,15 +1,19 @@
 {
   "texts": [
     {
-      "font": "Impact",
-      "pos": [32, 742],
-      "size": [566, 227]
+      "font_name": "Impact",
+      "font_size": 50,
+      "lw_multiplier": 2.5,
+      "pos": [60, 760],
+      "width": 960
     },
     {
-      "font": "Impact",
+      "font_name": "Impact",
+      "font_size": 100,
+      "lw_multiplier": 1,
       "default": "No.",
-      "pos": [896, 742],
-      "size": [514, 201]
+      "pos": [1100, 740],
+      "width": 400
     }
   ]
 }

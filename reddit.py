@@ -46,13 +46,14 @@ class RedditBot():
                         render.run(texts)
                         link = uploader.send(render.getImage(), f'r/{self.sub} wojak meme', '')
                         render.cleanup()
-                        try:
-                            reply = comment.reply(\
-                                "[Here's your meme!](" + link + ")" + self.footer)
-                        except praw.exceptions.RedditAPIException:
-                            print("Comment deleted!")
-                        else:
-                            print("\t\033[1;32m✓ Reply posted\033[0m")
+                        if link:
+                            try:
+                                comment.reply(\
+                                    "[Here's your meme!](" + link + ")" + self.footer)
+                            except praw.exceptions.RedditAPIException:
+                                print("Comment deleted!")
+                            else:
+                                print("\t\033[1;32m✓ Reply posted\033[0m")
 
 if __name__ == '__main__':
     print("Starting Reddit Bot")

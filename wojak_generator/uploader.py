@@ -24,4 +24,4 @@ class Uploader:
         if res.ok:
             res_json = res.json()
             return res_json['data']['link']
-        return None
+        return ''

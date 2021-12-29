@@ -1,5 +1,6 @@
 import discord
 from discord.ext import commands
+from dotenv import load_dotenv
 from os import getenv
 from sys import argv
 from wojak_generator.templates import Templates
@@ -59,6 +60,7 @@ def discordbot():
     bot.run(token)
 
 if __name__ == '__main__':
+    load_dotenv()
     if argv[1] == '--url':
         required_env = [
             "D_CLIENT_ID", "D_PERMISSIONS"

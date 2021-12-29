@@ -11,7 +11,6 @@ class RedditBot():
     sub = 'wojakmemebot'
     footer = "\n\n ^([Github](https://github.com/raptor8134/wojak-meme-bot))"
     memes = []
-    logger = logging
 
     def __init__(self, sub: str = ''):
         self.client = Reddit(

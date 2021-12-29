@@ -3,19 +3,28 @@ from os.path import isdir
 
 class Templates:
     base = './templates'
-    items = []
+    memes = []
 
     def __init__(self):
         f = open(self.base + '/list.json')
         list_string = f.read()
-        self.items = json.loads(list_string)
+        self.memes = json.loads(list_string)
         f.close()
 
     def all(self)-> list:
-        return self.items
+        """
+        Return all templates (Useful for bots like Reddit or Discord)
+        """
+        items = []
+        for meme in self.memes:
+            items.append(self.one(meme))
+        return items
 
-    def one(self, wojak: str)-> dict:
-        path = f'{self.base}/{wojak}'
+    def one(self, meme: str)-> dict:
+        """
+        Return just one template
+        """
+        path = f'{self.base}/{meme}'
         if isdir(path):
             # Import JSON config
             f = open(path + "/config.json")

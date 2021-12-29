@@ -31,10 +31,19 @@ class PhotoRender:
                 self.writeText(tuple(text_config["pos"]), text_config['width'], font_filename, text_config['font_size'], text_config['lw_multiplier'], text)
 
     def saveToDisk(self, file: str):
+        """
+        Save image to file
+        """
         self.image.save(file, format='JPEG')
 
     def getImage(self) -> Image.Image:
+        """
+        Return image object
+        """
         return image
 
     def cleanup(self):
+        """
+        Close all opened files
+        """
         self.image.close()

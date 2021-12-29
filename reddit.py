@@ -1,13 +1,17 @@
 from praw import Reddit
+from dotenv import load_dotenv
 from os import getenv
 from wojak_generator.templates import Templates
 from wojak_generator.render import PhotoRender
 from wojak_generator.uploader import Uploader
+from wojak_generator.helpers import checkEnv
 
 class RedditBot():
     client: Reddit
-    sub = 'politicalcompassmemes'
+    sub = 'wojakmemebot'
     footer = "\n\n ^([Github](https://github.com/raptor8134/wojak-meme-bot))"
+    memes = []
+    logger = logging
 
     def __init__(self, sub: str = ''):
         self.client = Reddit(
@@ -19,10 +23,11 @@ class RedditBot():
         )
         if sub:
             self.sub = sub
+        # Get all memes
+        templates = Templates()
+        self.memes = templates.all()
 
     def poll(self):
-        templates = Templates()
-        memes = templates.all()
         while True:
             comments = self.client.subreddit(self.sub).stream.comments()
             for comment in comments:
@@ -34,12 +39,9 @@ class RedditBot():
                     for reply in filtered_replies:
                         print("\033[1mFound a comment:\033[0m")
                         print("\thttps://reddit.com/" + comment.permalink)
-                        # This is the comment that wants to be added to the image
+                        # This is the comment that will be added to the image
                         texts = [comment.parent().body]
-                        # Path to template img
-                        path = f'{templates.base}/{name}'
-                        # Template config
-                        template = templates.one(name)
+                        template = self.memes[c[1::]]
                         render = PhotoRender(path, template)
                         uploader = Uploader()
 
@@ -57,5 +59,17 @@ class RedditBot():
 
 if __name__ == '__main__':
     print("Starting Reddit Bot")
-    bot = RedditBot()
+    load_dotenv()
+    # Check DotEnv vars first
+    required_env = [
+        "R_USER_AGENT", "R_CLIENT_ID", "R_CLIENT_SECRET", "R_USERNAME", "R_PASSWORD"
+    ]
+    checkEnv(required_env)
+
+    # Get subreddit
+    sub = ''
+    if getenv('R_SUBREDDIT'):
+        sub = getenv('R_SUBREDDIT')
+
+    bot = RedditBot(sub)
     bot.poll()

@@ -9,7 +9,7 @@ class Uploader:
     def __init__(self):
         self.s.headers['Authorization'] = f'Client-ID {getenv("I_CLIENT_ID")}'
 
-    def send(self, img: Image.Image, title: str, description: str)-> str:
+    def send(self, img, title: str, description: str)-> str:
         # Get image bytes first
         byte_im = PILToBytes(img)
         files = {

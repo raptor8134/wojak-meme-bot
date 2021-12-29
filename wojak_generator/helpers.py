@@ -1,5 +1,6 @@
 from PIL import Image
 from io import BytesIO
+from os import getenv
 from dotenv import load_dotenv
 
 def PILToBytes(img: Image.Image)-> bytes:

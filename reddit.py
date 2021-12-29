@@ -41,6 +41,7 @@ class RedditBot():
                         # This is the comment that will be added to the image
                         texts = [comment.parent().body]
                         template = self.memes[c[1::]]
+                        path = f'{Templates.base}/{c[1::]}'
                         render = PhotoRender(path, template)
                         uploader = Uploader()
 

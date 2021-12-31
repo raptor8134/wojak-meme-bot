@@ -1,0 +1,11 @@
+{
+  "texts": [
+    {
+      "font_name": "Impact",
+      "font_size": 40,
+      "lw_multiplier": 2.5,
+      "pos": [20, 780],
+      "width": 620
+    }
+  ]
+}

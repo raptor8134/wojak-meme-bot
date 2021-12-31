@@ -1,4 +1,0 @@
-imgur-python
-pillow
-praw
-discord.py

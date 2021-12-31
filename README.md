@@ -5,8 +5,8 @@ The preliminary version is currently testing on r/wojakmemebot
 
 ## TODO
 * Add proper logging
-* Imgur Quota check
 * Async reddit
+* Re-allow multiple subreddits at once
 * Deploy using Heroku
 * Improve implementation of chadyes and chadno (right now it's just copy-pasted)
 * Clean up code in general

@@ -1,11 +1,13 @@
 {
+  "name": "gigachad",
   "texts": [
     {
       "font_name": "Impact",
       "font_size": 40,
       "lw_multiplier": 2.5,
       "pos": [20, 780],
-      "width": 620
+      "img_width": 620,
+      "ascii_width": 30
     }
   ]
 }

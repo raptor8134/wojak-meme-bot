@@ -1,11 +1,13 @@
 {
+  "name": "chadyes",
   "texts": [
     {
       "font_name": "Impact",
       "font_size": 50,
       "lw_multiplier": 2.5,
       "pos": [60, 760],
-      "width": 800
+      "img_width": 800,
+      "ascii_width": 36
     },
     {
       "font_name": "Impact",
@@ -13,7 +15,8 @@
       "lw_multiplier": 1,
       "default": "Yes.",
       "pos": [1100, 740],
-      "width": 400
+      "img_width": 400,
+      "ascii_width": 36
     }
   ]
 }

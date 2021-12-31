@@ -6,10 +6,9 @@ class Templates:
     memes = []
 
     def __init__(self):
-        f = open(self.base + '/list.json')
-        list_string = f.read()
-        self.memes = json.loads(list_string)
-        f.close()
+        with open(self.base + '/list.json') as f:
+            list_string = f.read()
+            self.memes = json.loads(list_string)
 
     def all(self)-> list:
         """
@@ -25,7 +24,7 @@ class Templates:
         Return just one template
         """
         path = f'{self.base}/{meme}'
-        if isdir(path):
+        if meme in self.memes and isdir(path):
             # Import JSON config
             f = open(path + "/config.json")
             config_string = f.read()

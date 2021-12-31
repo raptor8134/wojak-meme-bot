@@ -17,7 +17,6 @@ class PhotoRender:
         img_editable.text(xy, text_lines, (0,0,0), font=font_draw)
 
     def run(self, texts: list):
-        print(texts)
         # Check if JSON is OK
         if 'texts' in self.config:
             for i in range(len(self.config["texts"])):

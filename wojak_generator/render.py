@@ -21,7 +21,7 @@ class PhotoRender:
         if 'texts' in self.config:
             for i in range(len(self.config["texts"])):
                 text_config = self.config["texts"][i]
-                if 'default' in text_config and i > len(texts):
+                if 'default' in text_config and i >= len(texts):
                     text = text_config["default"]
                 else:
                     text = texts[i]

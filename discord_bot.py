@@ -61,7 +61,7 @@ def discordbot():
 
 if __name__ == '__main__':
     load_dotenv()
-    if argv[1] == '--url':
+    if len(argv) > 1 and argv[1] == '--url':
         required_env = [
             "D_CLIENT_ID", "D_PERMISSIONS"
         ]

@@ -45,18 +45,18 @@ class RedditBot():
             for comment in comments:
                 c = comment.body
                 if c.startswith("!") and c[1::] in self.memes:
-                    should_reply = True
+                    meme = c[1::]
                     comment.refresh()
-                    filtered_replies = list(filter(lambda reply: reply.author.name != 'wojak-meme-bot', comment.replies))
-                    for reply in filtered_replies:
+                    if "wojak-meme-bot" not in [ reply.author for reply in comment.replies ]:
                         print("\033[1mFound a comment:\033[0m")
-                        print("\thttps://reddit.com/" + comment.permalink)
+                        print("\thttps://reddit.com" + comment.permalink)
                         # Parse html comment and ignore \n
                         html_parser = ExtractHTML()
                         html_parser.feed(comment.parent().body_html)
                         texts = list(filter(lambda text: '\n' not in text, html_parser.HTMLDATA))
-                        template = self.templates[c[1::]]
-                        path = f'{Templates.base}/{c[1::]}'
+                        #template = self.templates[meme]
+                        template = self.templates[self.memes.index(meme)]
+                        path = f'{Templates.base}/{meme}/template.jpg'
                         render = PhotoRender(path, template)
                         uploader = Uploader()
 

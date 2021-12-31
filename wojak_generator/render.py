@@ -40,7 +40,7 @@ class PhotoRender:
         """
         Return image object
         """
-        return image
+        return self.image
 
     def cleanup(self):
         """

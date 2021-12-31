@@ -2,6 +2,7 @@ from praw import Reddit
 from dotenv import load_dotenv
 from os import getenv
 from html.parser import HTMLParser
+import logging
 from wojak_generator.templates import Templates
 from wojak_generator.render import PhotoRender
 from wojak_generator.uploader import Uploader
@@ -48,8 +49,7 @@ class RedditBot():
                     meme = c[1::]
                     comment.refresh()
                     if "wojak-meme-bot" not in [ reply.author for reply in comment.replies ]:
-                        print("\033[1mFound a comment:\033[0m")
-                        print("\thttps://reddit.com" + comment.permalink)
+                        logger.debug(f"Found a comment: https://reddit.com{comment.permalink}")
                         # Parse html comment and ignore \n
                         html_parser = ExtractHTML()
                         html_parser.feed(comment.parent().body_html)
@@ -68,12 +68,11 @@ class RedditBot():
                                 comment.reply(\
                                     "[Here's your meme!](" + link + ")" + self.footer)
                             except praw.exceptions.RedditAPIException:
-                                print("Comment deleted!")
+                                logger.error("Comment was deleted!", exc_info=True)
                             else:
-                                print("\t\033[1;32m✓ Reply posted\033[0m")
+                                logger.debug("Reply posted")
 
 if __name__ == '__main__':
-    print("Starting Reddit Bot")
     load_dotenv()
     # Check DotEnv vars first
     required_env = [
@@ -85,6 +84,16 @@ if __name__ == '__main__':
     sub = ''
     if getenv('R_SUBREDDIT'):
         sub = getenv('R_SUBREDDIT')
+    else: sub = "wojakmemebot" # redundant, but needed for the logging filename
+
+    # logging setup, have to do after the getenv stuff for the correct filename
+    logger = logging.getLogger(sub)
+    logging.basicConfig(
+        level=logging.INFO,
+        filename="./logs/reddit.log",
+        format="%(asctime)s %(name)s:%(levelname)s:%(message)s"
+    )
+    logger.info(f"Starting bot on r/{sub}")
 
     bot = RedditBot(sub)
     bot.poll()

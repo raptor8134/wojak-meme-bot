@@ -3,6 +3,7 @@ from discord.ext import commands
 from dotenv import load_dotenv
 from os import getenv
 from sys import argv
+import logging
 from wojak_generator.templates import Templates
 from wojak_generator.render import PhotoRender
 from wojak_generator.helpers import PILToBytes, checkEnv
@@ -23,7 +24,7 @@ def discord_meme(memes: list, meme: str, arguments: list)-> discord.File:
     img = render.getImage()
     byte_im = PILToBytes(img)
     image = discord.File(fp=byte_im, filename='meme.jpg')
-    print("made a '" + meme + "' meme")
+    logger.info(f"made a {meme} meme")
     return image
 
 def discordbot():
@@ -35,7 +36,7 @@ def discordbot():
     @bot.event
     async def on_ready():
         await bot.change_presence(activity=discord.Game(name="with your balls"))
-        print("Started Discord Bot!")
+        logger.info("Started Discord bot")
 
     @bot.command()
     async def soyjack(ctx, *args):
@@ -60,6 +61,13 @@ def discordbot():
     bot.run(token)
 
 if __name__ == '__main__':
+    logger = logging.getLogger("discord_bot")
+    logging.basicConfig(\
+        level=logging.INFO,\
+        filename="./logs/discord.log",\
+        format="%(asctime)s %(name)s:%(levelname)s:%(message)s"
+    )
+
     load_dotenv()
     if len(argv) > 1 and argv[1] == '--url':
         required_env = [

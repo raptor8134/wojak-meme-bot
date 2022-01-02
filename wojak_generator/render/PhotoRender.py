@@ -8,7 +8,7 @@ class PhotoRender:
     def __init__(self, config: dict):
         self.texts = config['texts']
         name = config['name']
-        template_img = f'./templates/{name}/template.jpg'
+        path = f'./templates/{name}/template.jpg'
         self.image = Image.open(path)
 
     def writeText(self, xy: tuple, width: int, font_filename: str, font_size: int, lw_multiplier: int, text: str):

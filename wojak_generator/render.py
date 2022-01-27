@@ -7,7 +7,7 @@ class PhotoRender:
 
     def __init__(self, path: str, config: dict):
         self.config = config
-        self.image = Image.open(path)
+        self.image = Image.open(f"{path}/template.jpg")
 
     def writeText(self, xy: tuple, width: int, font_filename: str, font_size: int, lw_multiplier: int, text: str):
         img_editable = ImageDraw.Draw(self.image)

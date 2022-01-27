@@ -4,6 +4,7 @@ from dotenv import load_dotenv
 from os import getenv
 from sys import argv
 import logging
+import wojak_generator.templates
 from wojak_generator.templates import Templates
 from wojak_generator.render import PhotoRender
 from wojak_generator.helpers import PILToBytes, checkEnv
@@ -14,6 +15,9 @@ def bot_url():
     print("https://discord.com/api/oauth2/authorize?client_id=" + client_id + "&scope=bot&permissions=" + permissions)
 
 def discord_meme(memes: list, meme: str, arguments: list)-> discord.File:
+    #temporary
+    templates = Templates()
+
     text = ' '.join(arguments)
     texts = [text]
     # Path to template img
@@ -21,9 +25,13 @@ def discord_meme(memes: list, meme: str, arguments: list)-> discord.File:
     # Template config
     template = templates.one(meme)
     render = PhotoRender(path, template)
+    render.run(texts)
     img = render.getImage()
-    byte_im = PILToBytes(img)
-    image = discord.File(fp=byte_im, filename='meme.jpg')
+    # not using these because discord needs an actual file on the disk for some reason
+    #byte_im = PILToBytes(img)
+    #image = discord.File(fp=byte_im, filename='meme.jpg')
+    img.save("/tmp/wojak-meme-discord.jpg")
+    image = discord.File(fp="/tmp/wojak-meme-discord.jpg", filename='meme.jpg')
     logger.info(f"made a {meme} meme")
     return image
 
@@ -62,10 +70,13 @@ def discordbot():
 
 if __name__ == '__main__':
     logger = logging.getLogger("discord_bot")
-    logging.basicConfig(\
-        level=logging.INFO,\
-        filename="./logs/discord.log",\
-        format="%(asctime)s %(name)s:%(levelname)s:%(message)s"
+    logging.basicConfig(
+        level=logging.INFO,
+        format="%(asctime)s %(name)s:%(levelname)s:%(message)s",
+        handlers = [
+            logging.FileHandler("./logs/discord.log"),
+            logging.StreamHandler()
+        ]
     )
 
     load_dotenv()

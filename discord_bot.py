@@ -4,8 +4,10 @@ from dotenv import load_dotenv
 from os import getenv
 from sys import argv
 from wojak_generator.templates import Templates
-from wojak_generator.render import PhotoRender
+from wojak_generator.render.PhotoRender import PhotoRender
 from wojak_generator.helpers import PILToBytes, checkEnv
+
+from pprint import pprint
 
 def bot_url():
     client_id = getenv("D_CLIENT_ID")
@@ -17,23 +19,28 @@ class DiscordBot:
     token = ''
     memes = []
     templates = []
+    templates_list = []
     def __init__(self, token: str):
         self.token = token
-        templates = Templates()
-        self.memes = templates.memes
-        self.templates = templates.all()
+        self.templates = Templates()
+        self.memes = self.templates.memes
+        self.templates_list = self.templates.all()
 
     def getFile(self, meme: str, arguments: list)-> discord.File:
         # TODO, add ASCII option
         text = ' '.join(arguments)
         texts = [text]
         # Template config
-        print(self.templates)
-        config = self.templates[meme]
+        config = self.templates.one(meme)
+        pprint(config)
         render = PhotoRender(config)
-        img = render.getImage()
-        byte_im = PILToBytes(img)
-        image = discord.File(fp=byte_im, filename='meme.jpg')
+        render.run(texts)
+        img = render.get()
+        # discord is stupid and only takes a file path for its file class
+        #byte_im = PILToBytes(img)
+        #image = discord.File(fp=byte_im, filename='meme.jpg')
+        img.save("/tmp/wojak-meme-bot.jpg")
+        image = discord.File(fp="/tmp/wojak-meme-bot.jpg")
         print("made a '" + meme + "' meme")
         return image
 

@@ -28,6 +28,7 @@ class DiscordBot:
         text = ' '.join(arguments)
         texts = [text]
         # Template config
+        print(self.templates)
         config = self.templates[meme]
         render = PhotoRender(config)
         img = render.getImage()
@@ -37,33 +38,33 @@ class DiscordBot:
         return image
 
     def add_commands(self):
-        @bot.event
+        @self.client.event
         async def on_ready():
-            await bot.change_presence(activity=discord.Game(name="with your balls"))
+            await self.client.change_presence(activity=discord.Game(name="with your balls"))
             print("Started Discord Bot!")
 
-        @bot.command()
+        @self.client.command()
         async def soyjack(ctx: commands.Context, *args):
             image = self.getFile('soyjack', args)
             await ctx.send(file=image)
 
-        @bot.command()
+        @self.client.command()
         async def gigachad(ctx: commands.Context, *args):
             image = self.getFile('gigachad', args)
             await ctx.send(file=image)
 
-        @bot.command()
+        @self.client.command()
         async def chadyes(ctx: commands.Context, *args):
             image = self.getFile('chadyes', args)
             await ctx.send(file=image)
 
-        @bot.command()
+        @self.client.command()
         async def chadno(ctx: commands.Context, *args):
             image = self.getFile('chadno', args)
             await ctx.send(file=image)
 
     def run(self):
-        self.client.run()
+        self.client.run(self.token)
 
 if __name__ == '__main__':
     load_dotenv()

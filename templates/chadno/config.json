@@ -13,7 +13,7 @@
       "font_name": "Impact",
       "font_size": 100,
       "lw_multiplier": 1,
-      "default": "Yes.",
+      "default": "No.",
       "pos": [1100, 740],
       "img_width": 400,
       "ascii_width": 36

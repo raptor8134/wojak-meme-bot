@@ -3,17 +3,16 @@ from io import BytesIO
 from os import getenv
 from dotenv import load_dotenv
 
-def PILToBytes(img: Image.Image)-> bytes:
+def PIL_to_bytes(img: Image.Image)-> bytes:
     """
     Convert PIL Image to bytes
     """
-    buf = BytesIO()
-    img.save(buf, format='JPEG')
-    byte_im = buf.getvalue()
-    buf.close()
-    return byte_im
+    with BytesIO() as buf:
+        img.save(buf, format='JPEG')
+        byte_im = buf.getvalue()
+        return byte_im
 
-def checkEnv(envs: list):
+def check_env(envs: list):
     """
     Check if a list of enviroment variables are set, raise exception if not
     """

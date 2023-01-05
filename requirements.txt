@@ -4,7 +4,7 @@ attrs==21.3.0
 certifi==2021.10.8
 chardet==4.0.0
 charset-normalizer==2.0.9
-discord.py==1.7.3
+discord.py==2.1.0
 fleep==1.0.1
 idna==3.3
 multidict==5.2.0

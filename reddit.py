@@ -6,7 +6,7 @@ import logging
 from wojak_generator.templates import Templates
 from wojak_generator.render import PhotoRender
 from wojak_generator.uploader import Uploader
-from wojak_generator.helpers import checkEnv
+from wojak_generator.helpers import check_env
 
 class ExtractHTML(HTMLParser):
     def __init__(self):
@@ -78,7 +78,7 @@ if __name__ == '__main__':
     required_env = [
         "R_USER_AGENT", "R_CLIENT_ID", "R_CLIENT_SECRET", "R_USERNAME", "R_PASSWORD"
     ]
-    checkEnv(required_env)
+    check_env(required_env)
 
     # Get subreddit
     sub = ''
@@ -90,8 +90,11 @@ if __name__ == '__main__':
     logger = logging.getLogger(sub)
     logging.basicConfig(
         level=logging.INFO,
-        filename="./logs/reddit.log",
-        format="%(asctime)s %(name)s:%(levelname)s:%(message)s"
+        format="%(asctime)s %(name)s:%(levelname)s:%(message)s",
+        handlers = [
+            logging.FileHandler("./logs/reddit.log"),
+            logging.StreamHandler()
+        ]
     )
     logger.info(f"Starting bot on r/{sub}")
 

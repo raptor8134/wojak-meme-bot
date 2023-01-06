@@ -1,9 +1,9 @@
-from PIL import Image
+from PIL.Image import Image
 from io import BytesIO
 from os import getenv
-from dotenv import load_dotenv
+from wojak_generator.render.modes import modes
 
-def PIL_to_bytes(img: Image.Image)-> bytes:
+def PIL_to_bytes(img: Image)-> bytes:
     """
     Convert PIL Image to bytes
     """
@@ -19,3 +19,10 @@ def check_env(envs: list):
     for env in envs:
         if not getenv(env):
             raise Exception(f'{env} enviroment variable not found!')
+
+def pick_render(mode: str, config: dict):
+    if mode in modes:
+        return modes[mode](config)
+    else:
+        raise Exception('Mode not found')
+

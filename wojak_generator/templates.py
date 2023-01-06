@@ -6,10 +6,9 @@ class Templates:
     memes = []
 
     def __init__(self):
-        f = open(self.base + '/list.json')
-        list_string = f.read()
-        self.memes = json.loads(list_string)
-        f.close()
+        with open(self.base + '/list.json') as f:
+            list_string = f.read()
+            self.memes = json.loads(list_string)
 
     def all(self)-> list:
         """
@@ -25,11 +24,11 @@ class Templates:
         Return just one template
         """
         path = f'{self.base}/{meme}'
-        if isdir(path):
+        if str(meme) in self.memes: #and isdir(path):
             # Import JSON config
-            f = open(path + "/config.json")
-            config_string = f.read()
-            config = json.loads(config_string)
-            f.close()
-            return config
-        raise Exception('Template not found')
+            with open(f"{path}/config.json") as f:
+                config_string = f.read()
+                config = json.loads(config_string)
+                return config
+        else:
+            raise Exception('Template not found')

@@ -5,67 +5,69 @@ from os import getenv
 from sys import argv
 from io import BytesIO
 import logging
+import logging.config
 import wojak_generator.templates
 from wojak_generator.templates import Templates
-from wojak_generator.render import PhotoRender
+from wojak_generator.render.PhotoRender import PhotoRender
 from wojak_generator.helpers import PIL_to_bytes, check_env
+import colorlogging
 
 def bot_url():
     client_id = getenv("D_CLIENT_ID")
     permissions = getenv("D_PERMISSIONS")
-    print("https://discord.com/api/oauth2/authorize?client_id=" + client_id + "&scope=bot&permissions=" + permissions)
+    print(f"https://discord.com/api/oauth2/authorize?client_id={client_id}&scope=bot&permissions={permissions}")
 
-async def discord_meme(ctx, meme: str, arguments: list)-> discord.File:
-    # template config
-    templates = Templates()
-    path = f'{templates.base}/{meme}'
-    template = templates.one(meme)
-    # render image
-    render = PhotoRender(path, template)
-    render.run(arguments)
-    img = render.getImage()
-    # send image
-    with BytesIO() as img_bin:
-        img.save(img_bin, "JPEG")
-        img_bin.seek(0)
-        image = discord.File(fp=img_bin, filename="meme.jpg")
-        await ctx.send(file=image)
-    logger.info(f"made a {meme} meme")
+class DiscordBot:
+    client: commands.Bot
+    token = ""
+    memes = []
+    templates = []
+    templates_list = []
+    def __init__(self, token: str):
+        intents = discord.Intents.default()
+        intents.message_content = True
+        self.client = commands.Bot(command_prefix="!", intents=intents)
+        self.token = token
+        self.templates = Templates()
+        self.memes = self.templates.memes
+        self.templates_list = self.templates.all()
 
-def discordbot():
-    intents = discord.Intents.default()
-    intents.message_content = True
-    bot = commands.Bot(command_prefix="!", intents=intents)
-    token = getenv("D_TOKEN")
+    def get_file(self, ctx: commands.Context, arguments: list)-> discord.File:
+        # template stuff
+        meme = ctx.command
+        path = f"{self.templates.base}/{meme}"
+        template = self.templates.one(meme)
+        # render image
+        render = PhotoRender(template)
+        render.run(arguments)
+        img = render.get()
+        return PIL_to_bytes(img)
 
-    memes = Templates().memes
 
-    @bot.event
-    async def on_ready():
-        await bot.change_presence(activity=discord.Game(name="with your balls"))
-        logger.info("Started Discord bot")
+    def add_commands(self):
+        @self.client.event
+        async def on_ready():
+            await self.client.change_presence(activity=discord.Game(name="with your balls"))
+            logger.info("Started Discord Bot!")
 
-    for meme in memes:
-        @bot.command(name=meme, pass_context=True)
-        async def send_meme(ctx, *args):
-            print(ctx.command)
-            await discord_meme(ctx, ctx.command, args)
+        for meme in self.memes:
+            @self.client.command(name=meme, pass_context=True)
+            async def send_meme(ctx: commands.Context, *args):
+                img = self.get_file(ctx, args)
+                with BytesIO(img) as f:
+                    image = discord.File(fp=f, filename="meme.jpg")
+                    await ctx.send(file=image)
+                logger.info(f"Command `{ctx.command}` invoked with arguments {args}")
 
-    bot.run(token)
+    def run(self):
+        self.client.run(self.token)
 
-if __name__ == '__main__':
-    logger = logging.getLogger("discord_bot")
-    logging.basicConfig(
-        level=logging.INFO,
-        format="%(asctime)s %(name)s:%(levelname)s:%(message)s",
-        handlers = [
-            logging.FileHandler("./logs/discord.log"),
-            logging.StreamHandler()
-        ]
-    )
+if __name__ == "__main__":
+    logging.config.fileConfig("logging.ini")
+    logger = logging.getLogger("discord")
 
     load_dotenv()
-    if len(argv) > 1 and argv[1] == '--url':
+    if len(argv) > 1 and argv[1] == "--url":
         required_env = [
             "D_CLIENT_ID", "D_PERMISSIONS"
         ]
@@ -76,4 +78,6 @@ if __name__ == '__main__':
             "D_TOKEN"
         ]
         check_env(required_env)
-        discordbot()
+        bot = DiscordBot(getenv("D_TOKEN"))
+        bot.add_commands()
+        bot.run()

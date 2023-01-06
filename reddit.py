@@ -4,6 +4,7 @@ from dotenv import load_dotenv
 from os import getenv
 from html.parser import HTMLParser
 import logging
+import logging.config
 from wojak_generator.templates import Templates
 from wojak_generator.helpers import pick_render, check_env
 from wojak_generator.uploader import Uploader
@@ -122,17 +123,10 @@ if __name__ == '__main__':
         sub = getenv('R_SUBREDDIT')
     else: sub = "wojakmemebot" # redundant, but needed for the logging filename
 
-    # logging setup, have to do after the getenv stuff for the correct filename
-    logger = logging.getLogger(sub)
-    logging.basicConfig(
-        level=logging.INFO,
-        format="%(asctime)s %(name)s:%(levelname)s:%(message)s",
-        handlers = [
-            logging.FileHandler("./logs/reddit.log"),
-            logging.StreamHandler()
-        ]
-    )
-    logger.info(f"Starting bot on r/{sub}")
+    # logging setup
+    logging.config.fileConfig("logging.ini", disable_existing_loggers=True)
+    logger = logging.getLogger("reddit")
 
+    logger.info(f"Starting bot on r/{sub}")
     bot = RedditBot(getenv('I_CLIENT_ID'), sub)
     bot.poll()

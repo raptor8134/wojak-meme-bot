@@ -60,10 +60,10 @@ class DiscordBot:
                 logger.info(f"Command `{ctx.command}` invoked with arguments {args}")
 
     def run(self):
-        self.client.run(self.token)
+        self.client.run(self.token, log_handler=None)
 
 if __name__ == "__main__":
-    logging.config.fileConfig("logging.ini")
+    logging.config.fileConfig("logging.ini", disable_existing_loggers=True)
     logger = logging.getLogger("discord")
 
     load_dotenv()

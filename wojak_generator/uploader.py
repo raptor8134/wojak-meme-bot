@@ -3,7 +3,7 @@ from os import getenv
 from wojak_generator.helpers import PIL_to_bytes
 
 class Uploader:
-    BASE_URL = 'https://api.imgur.com/3/upload'
+    endpoint = 'https://api.imgur.com/3/upload'
     s = requests.Session()
     error = ''
 
@@ -22,7 +22,7 @@ class Uploader:
             'title': title,
             'description': description
         }
-        res = self.s.post(self.BASE_URL, files=files, data=body)
+        res = self.s.post(self.endpoint, files=files, data=body)
         if res.ok:
             res_json = res.json()
             return res_json['data']['link']

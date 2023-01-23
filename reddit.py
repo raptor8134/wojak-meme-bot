@@ -80,7 +80,7 @@ class RedditBot:
         )
         self.templates = Templates()
         self.memes = self.templates.memes
-        self.uploader = Uploader(getenv("I_CLIENT_ID"))
+        self.uploader = Uploader(environ["I_CLIENT_ID"])
         self.commands = SimpleQueue()
         self.to_send  = SimpleQueue()
 
@@ -132,7 +132,7 @@ class RedditBot:
             self.to_send.put(command)
 
 if __name__ == "__main__":
-    load_dotenv()
+    load_dotenv("tokens.env")
     subs = environ["R_SUBREDDITS"].split()
 
     logging.config.fileConfig("logging.ini", disable_existing_loggers=True)

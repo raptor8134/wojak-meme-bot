@@ -65,7 +65,8 @@ if __name__ == "__main__":
     logging.config.fileConfig("logging.ini", disable_existing_loggers=True)
     logger = logging.getLogger("discord")
 
-    load_dotenv()
+    load_dotenv("tokens.env")
+
     if len(argv) > 1 and argv[1] == "--url":
         bot_url()
     else:

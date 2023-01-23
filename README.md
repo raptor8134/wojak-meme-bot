@@ -10,3 +10,4 @@ The preliminary version is currently testing on r/wojakmemebot
 * Improve the ascii renderer
 * Clean up code in general
 * Add more templates
+* Get all environ/getenv out of bot classes and have tokens passed in as arguments

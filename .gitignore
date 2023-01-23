@@ -6,4 +6,5 @@ __pycache__
 !/out/.gitkeep
 /logs/*
 login.sh
+tokens.env
 __pycache__

@@ -1,8 +1,7 @@
-#!/bin/env python3
 from praw import Reddit
 from praw.models import Comment
 from dotenv import load_dotenv
-from os import getenv
+from os import environ
 from html.parser import HTMLParser
 import logging
 import logging.config
@@ -72,11 +71,11 @@ class RedditBot:
     def __init__(self, subs: list = ["wojakmemebot"]):
         self.subs = "+".join(subs)
         self.client = Reddit(
-            user_agent      = getenv("R_USER_AGENT"),
-            client_id       = getenv("R_CLIENT_ID"),
-            client_secret   = getenv("R_CLIENT_SECRET"),
-            username        = getenv("R_USERNAME"),
-            password        = getenv("R_PASSWORD"),
+            user_agent      = environ["R_USER_AGENT"],
+            client_id       = environ["R_CLIENT_ID"],
+            client_secret   = environ["R_CLIENT_SECRET"],
+            username        = environ["R_USERNAME"],
+            password        = environ["R_PASSWORD"],
             check_for_updates = False
         )
         self.templates = Templates()
@@ -133,16 +132,8 @@ class RedditBot:
             self.to_send.put(command)
 
 if __name__ == "__main__":
-    required_env = [
-        "R_USER_AGENT",
-        "R_CLIENT_ID",
-        "R_CLIENT_SECRET",
-        "R_USERNAME",
-        "R_PASSWORD",
-        "I_CLIENT_ID"
-    ]
-    check_env(required_env)
-    subs = getenv("R_SUBREDDITS").split()
+    load_dotenv()
+    subs = environ["R_SUBREDDITS"].split()
 
     logging.config.fileConfig("logging.ini", disable_existing_loggers=True)
     logger = logging.getLogger("reddit")
